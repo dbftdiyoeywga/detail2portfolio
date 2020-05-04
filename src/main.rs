@@ -1,15 +1,17 @@
+use std::env;
 use std::error::Error;
+use std::ffi::OsString;
 use std::io;
 use std::process;
-use std::env;
-use std::ffi::OsString;
 
 use csv::StringRecord;
 
 fn parse() -> Result<(), Box<dyn Error>> {
-    let mut rdr = csv::ReaderBuilder::new().flexible(true).from_reader(io::stdin());
-
     let file_path = get_first_arg()?;
+    let mut rdr = csv::ReaderBuilder::new()
+        .flexible(true)
+        .from_reader(io::stdin());
+
     let mut wtr = csv::Writer::from_path(file_path)?;
 
     let mut category: String = "None".to_string();
